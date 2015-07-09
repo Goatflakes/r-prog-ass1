@@ -7,9 +7,9 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   ## 'id' is an integer vector indicating the monitor ID numbers
   ## to be used
   
-  # the running total of the means of all monitors
+  # sum of the observations
   total = 0
-  # the number monitors read
+  # number of observations
   count = 0
   
   if(file.exists(directory[1]) & file.info(directory[1])$isdir) {
@@ -28,10 +28,10 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
       nas <- is.na(pol)
       # invert that & index the subset getting the non-NAs
       pol <- pol[!nas]
-      # find the mean, add it to the total
-      total <- total + mean(pol)
-      # inc the count
-      count <- count + 1
+      # sum the observations
+      total <- total + sum(pol)
+      # count the observations
+      count <- count + length(pol)
     }
   } else {
     stop( "pollutantmean.R:  ", directory, " does not exist!" )
@@ -43,5 +43,4 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   
   # divide the total by the count
   total / count  
-  
 }
