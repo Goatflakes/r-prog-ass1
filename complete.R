@@ -10,11 +10,9 @@ complete <- function(directory, id = 1:332) {
   }
 
   nobs <- numeric(0)
-  ids <- id
-  id <- numeric(0)
   ## 'id' is an integer vector indicating the monitor ID numbers
   ## to be used
-  for(monitor in ids) {
+  for(monitor in id) {
     # build a file name from the given monitor id
     filename <- file.path(directory[1], sprintf("%03d.csv", monitor))
     # check if the file exists, stop otherwise
@@ -22,8 +20,7 @@ complete <- function(directory, id = 1:332) {
       stop("pollutantmean.R:  ", filename, " does not exist!")
     }
 
-    nobs[monitor] <- sum(complete.cases(read.csv(filename)))
-    id[monitor] <- monitor
+    nobs <- c(nobs, sum(complete.cases(read.csv(filename))))
   }  
   ## Return a data frame of the form:
   ## id nobs
@@ -32,8 +29,5 @@ complete <- function(directory, id = 1:332) {
   ## ...
   ## where 'id' is the monitor ID number and 'nobs' is the
   ## number of complete cases
-  nas <- is.na(id)
-  id <- id[!nas]
-  nobs <- nobs[!nas]
   data.frame(id, nobs)
 }
