@@ -19,8 +19,8 @@ complete <- function(directory, id = 1:332) {
     if(!file.exists(filename)) {
       stop("pollutantmean.R:  ", filename, " does not exist!")
     }
-
-    nobs <- c(nobs, sum(complete.cases(read.csv(filename))))
+    end = length(nobs) + 1
+    nobs[end] <- sum(complete.cases(read.csv(filename)))
   }  
   ## Return a data frame of the form:
   ## id nobs
